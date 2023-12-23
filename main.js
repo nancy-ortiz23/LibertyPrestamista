@@ -1,68 +1,109 @@
-// Bienvenidos/Liberty Prestamista 
-let nombre = prompt("Ingrese su nombre");
-alert("Bienvenido/a a Liberty Prestamista : " + nombre);
-
-let monto = Number(prompt("Ingrese el monto a financiar: "));
-
-if (monto <= 1000) {
-    alert("No se puede financiar en cuotas para montos menores o iguales a $1000");
-} else {
-    let tasaInteres = 0.1; // Tasa de interés del 10% (ajusta según tus necesidades)
-    let resultado3 = calcularCuota(monto, 3, tasaInteres);
-    let resultado6 = calcularCuota(monto, 6, tasaInteres);
-    let resultado12 = calcularCuota(monto, 12, tasaInteres);
-
-    // Opciones de cuotas
-    alert("Opciones de cuotas:\n\n" +
-        "3 cuotas de $" + resultado3.toFixed(2) + "\n" +
-        "6 cuotas de $" + resultado6.toFixed(2) + "\n" +
-        "12 cuotas de $" + resultado12.toFixed(2));
-
-    // Cantidad de cuotas deseadas
-    let cuotasElegidas = Number(prompt("Ingrese la cantidad de cuotas deseadas (3, 6, o 12):"));
-
-    // Monto total a pagar
-    let montoTotal;
-
+// Función para solicitar un número al usuario y manejar errores
+function solicitarNumero(mensaje) {
+    let numero;
     while (true) {
-        switch (cuotasElegidas) {
-            case 3:
-                montoTotal = resultado3 * cuotasElegidas;
-                break;
-            case 6:
-            case 12:
-                let factor = cuotasElegidas === 6 ? resultado6 : resultado12;
-                montoTotal = factor * cuotasElegidas;
-                break;
-            default:
-                alert("Cantidad de cuotas no válida. El programa finalizará.");
-                //Agregue una condición de salida del bucle si la cantidad de cuotas no es válida
-                break;
-        }
-
-        //agregue una condición de salida del bucle si la cantidad de cuotas es válida
-        if (cuotasElegidas === 3 || cuotasElegidas === 6 || cuotasElegidas === 12) {
-            break;
+        numero = Number(prompt(mensaje));
+        if (!isNaN(numero)) {
+            break; // Sale del bucle si el usuario ingresa un número válido
+        } else {
+            alert("Por favor, ingrese un número válido.");
         }
     }
-
-    if (montoTotal) {
-        alert("El monto total a pagar (incluyendo intereses) es: $" + montoTotal.toFixed(2));
-    }
-}
-
-// Interaccion con el prestamo
-let deseaSeguro = confirm("¿Quieres solicitar el prestamo simulado?");
-
-if (deseaSeguro) {
-    let telefono = Number(prompt("Ingrese su numero de telefono:"));
-    alert("Gracias por contratar nuestro seguro de vivienda. Le contactaremos para más detalles.");
-} else {
-    alert("Gracias por utilizar Liberty Prestamista. ¡Hasta luego!");
+    return numero;
 }
 
 // Función para calcular la cuota con interés
 function calcularCuota(monto, cuotas, tasaInteres) {
     let interes = monto * tasaInteres;
     return (monto + interes) / cuotas;
+}
+
+// Array de préstamos
+const prestamosArray = [];
+
+// Función para agregar un préstamo al array
+function agregarPrestamo(monto, cuotas, tasaInteres) {
+    const prestamo = {
+        monto: monto,
+        cuotas: cuotas,
+        tasaInteres: tasaInteres,
+        montoTotal: null
+    };
+
+    // Calcular monto total a pagar
+    prestamo.montoTotal = calcularCuota(monto, cuotas, tasaInteres) * cuotas;
+
+    // Agregar el préstamo al array
+    prestamosArray.push(prestamo);
+
+    return prestamo;
+}
+
+// Bienvenidos/Liberty Prestamista
+let nombre = prompt("Ingrese su nombre");
+alert("Bienvenido/a a Liberty Prestamista: " + nombre);
+
+// Solicitar información del préstamo
+const monto = solicitarNumero("Ingrese el monto a financiar:");
+
+if (monto <= 1000) {
+    alert("No se puede financiar en cuotas para montos menores o iguales a $1000");
+} else {
+    const tasaInteres = 0.1; // Tasa de interés del 10% (ajusta según tus necesidades)
+    const cuotasDisponibles = [3, 6, 12];
+
+    // Opciones de cuotas
+    alert("Opciones de cuotas:\n\n" +
+        cuotasDisponibles.map(cuota => `${cuota} cuotas de $${calcularCuota(monto, cuota, tasaInteres).toFixed(2)}`).join("\n"));
+
+    // Cantidad de cuotas deseadas
+    const cuotas = solicitarNumero("Ingrese la cantidad de cuotas deseadas (3, 6, o 12):");
+
+    // Verificar si la cantidad de cuotas es válida
+    if (!cuotasDisponibles.includes(cuotas)) {
+        alert("Cantidad de cuotas no válida. Por favor, ingrese 3, 6 o 12.");
+    } else {
+        // Agregar el préstamo al array
+        const nuevoPrestamo = agregarPrestamo(monto, cuotas, tasaInteres);
+
+        // Mostrar el monto total a pagar
+        alert(`El monto total a pagar (incluyendo intereses) es: $${nuevoPrestamo.montoTotal.toFixed(2)}`);
+    }
+}
+
+// Interacción con el préstamo
+let deseaSeguro = confirm("¿Quieres solicitar el préstamo simulado?");
+
+// Objeto para almacenar información de la persona
+const persona = {
+    nombre: nombre,
+    edad: null,
+    direccion: null,
+    telefono: null
+};
+
+// Solicitar información adicional de la persona
+persona.edad = solicitarNumero("Ingrese su edad:");
+persona.direccion = prompt("Ingrese su dirección:");
+persona.telefono = solicitarNumero("Ingrese su número de teléfono:");
+
+console.log("Información de la persona:", persona);
+
+// Imprimir información de todos los préstamos en la consola
+console.log("Información de todos los préstamos:", prestamosArray);
+
+// Buscar un préstamo por monto utilizando find
+const montoBuscado = 5000; // Puedes ajustar este valor según tus necesidades
+const prestamoEncontrado = prestamosArray.find(prestamo => prestamo.monto === montoBuscado);
+
+if (prestamoEncontrado) {
+    console.log(`Préstamo encontrado con un monto de $${montoBuscado}:`, prestamoEncontrado);
+} else {
+    console.log(`No se encontró ningún préstamo con un monto de $${montoBuscado}.`);
+}
+
+if (deseaSeguro) {
+    alert("Gracias por contratar nuestro seguro de vivienda. Le contactaremos para más detalles.");
+} else {
+    alert("Gracias por utilizar Liberty Prestamista. ¡Hasta luego!");
 }
