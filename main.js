@@ -72,7 +72,7 @@ if (monto <= 1000) {
 }
 
 // Interacción con el préstamo
-let deseaSeguro = confirm("¿Quieres solicitar el préstamo simulado?");
+let deseaPrestamo = confirm("¿Quieres solicitar el préstamo simulado?");
 
 // Objeto para almacenar información de la persona
 const persona = {
@@ -102,7 +102,7 @@ if (prestamoEncontrado) {
     console.log(`No se encontró ningún préstamo con un monto de $${montoBuscado}.`);
 }
 
-if (deseaSeguro) {
+if (deseaPrestamo) {
     alert("Gracias por contratar nuestro seguro de vivienda. Le contactaremos para más detalles.");
 } else {
     alert("Gracias por utilizar Liberty Prestamista. ¡Hasta luego!");
