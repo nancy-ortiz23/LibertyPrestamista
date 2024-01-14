@@ -1,11 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Liberty Prestamista</title>
+    <script src="https://kit.fontawesome.com/3c44aa10f3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/prestamista.css">
+    <title>Liberty Prestamista</title>
+    <link rel="stylesheet" href="css/style-icon-github.css">
 </head>
 <body>
-    <script src="./main.js"></script>
+    <div class="form">
+        <fieldset>
+            <h1>Bienvenidos Liberty Prestamista</h1>
+            <form>
+                <div class="input-container">
+                    <label for="capital">CAPITAL
+                        <input type="text" placeholder="Ingrese el capital prestado" id="capital">
+                        <i class="fas fa-coins"></i>
+                    </label>
+                </div>
+                
+                <div class="input-container">
+                    <label for="couta">CUOTAS
+                        <input type="text" placeholder="Ingrese las cuotas del préstamo" id="couta">
+                        <i class="far fa-calendar-alt"></i>
+                    </label>
+                </div>
+                
+                <div class="input-container">
+                    <label for="interes">INTERÉS
+                        <input type="text" placeholder="Ingrese el interés a generar" id="interes">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </label>
+                </div>
+            </form>
+            <button onclick="simularPrestamo();">SIMULAR PRÉSTAMO</button>
+            <button onclick="genTable();">GENERAR TABLA</button>
+            <button onclick="resetForm()" class="reset">Limpiar</button>
+        </fieldset>
+        <hr>
+        <table class="tab">
+            <thead>
+                <tr>
+                    <td>NRO</td>
+                    <td>CAPITAL</td>
+                    <td>INTERES</td>
+                    <td>IMPORTE A PAGAR</td>
+                </tr>
+            </thead>
+            <tbody id="tab">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="ft">TOTAL</td>
+                    <td id="t1"></td>
+                    <td id="t2"></td>
+                    <td id="t3"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <footer>
+        <h2>Visita nuestras redes sociales</h2>
+    <p>Sitio web creado sin fines de lucro&copy;</p>
+    <a href="https://api.whatsapp.com/send?phone=5491112345678" target="_blank" title="whatsapp" rel="noopener">
+        <img src="img/icono-whatsapp.png" alt="Icono whatsapp" class="whatsapp">
+    </a>
+   </footer>
+   <script src="./main.js"></script>
 </body>
 </html>

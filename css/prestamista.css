@@ -1,0 +1,144 @@
+body {
+    background: url("../img/alexander-grey-8lnbXtxFGZw-unsplash.jpg") no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.85;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #173441;
+    margin-bottom: 15px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 24px;
+    font-family:Arial, Helvetica, sans-serif;
+    color: #0000;
+}
+
+label {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #fff;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form {
+    width: 550px;
+    margin: 0 auto;
+    margin-top: 80px;
+    border: 2px solid #173441;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: rgba(166, 167, 170, 0.8);
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+input {
+    width: calc(100% - 40px);
+    padding: 10px;
+    background-color: #f5f5f5;
+    border: 1.8px solid #1c3c4b;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+i{
+    background-color: #fdfef7;
+    color: rgb(156, 155, 155);
+    border: #173441 1px solid;
+    padding: 6.8px 8px 9.8px 8px;
+    border-left: white;
+    margin-bottom: 10px;
+}
+
+fieldset {
+    border: 2px solid #173441;
+    border-radius: 10px;
+    background-color: #5d616e3d;
+    padding: 10px;
+}
+
+button {
+    background-color: #f5f5f5;
+    border: 1.8px solid #0d445e;
+    width: 100%;
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    border-radius: 2px;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+button.reset {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    color: #fff;
+}
+
+.tab {
+    border-collapse: collapse;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    border: 2px solid #173441;
+    margin: 20px auto;
+    width: 100%;
+}
+
+thead,
+tr,
+td {
+    border: 2px solid #173441;
+}
+
+thead {
+    font-weight: bold;
+    background-color: #173441;
+    color: #fff;
+}
+
+td {
+    padding: 10px;
+}
+
+footer p {
+    text-align: center;
+    font-size: 24px;
+    font-family:Arial, Helvetica, sans-serif;
+    color: #0000;
+    
+}
+  
+  .icono-redes {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+  }
+  
+  .whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 50px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px #c267a7e7;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .whatsapp:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 40px #c92ab3fa;
+  }
