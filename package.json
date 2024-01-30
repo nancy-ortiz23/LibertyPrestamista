@@ -1,0 +1,22 @@
+{
+  "name": "libertyprestamista-nancyortiz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nancy-ortiz23/LibertyPrestamista.git"
+  },
+  "author": "nancy ortiz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nancy-ortiz23/LibertyPrestamista/issues"
+  },
+  "homepage": "https://github.com/nancy-ortiz23/LibertyPrestamista#readme",
+  "dependencies": {
+    "nodemon": "^3.0.3"
+  }
+}
