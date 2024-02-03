@@ -3,71 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liberty Prestamista</title>
-    <script src="https://kit.fontawesome.com/3c44aa10f3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/prestamista.css">
-    <title>Liberty Prestamista</title>
-    <link rel="stylesheet" href="css/style-icon-github.css">
-</head>
+     <!-- Enlace a SweetAlert2 -->
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Calculadora de Préstamos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/prestamista.css">
+   
+    
+    </head>
+
 <body>
-    <div class="form">
-        <fieldset>
-            <h1>Bienvenidos Liberty Prestamista</h1>
-            <form>
-                <div class="input-container">
-                    <label for="capital">CAPITAL
-                        <input type="text" placeholder="Ingrese el capital prestado" id="capital">
-                        <i class="fas fa-coins"></i>
-                    </label>
-                </div>
-                
-                <div class="input-container">
-                    <label for="couta">CUOTAS
-                        <input type="text" placeholder="Ingrese las cuotas del préstamo" id="couta">
-                        <i class="far fa-calendar-alt"></i>
-                    </label>
-                </div>
-                
-                <div class="input-container">
-                    <label for="interes">INTERÉS
-                        <input type="text" placeholder="Ingrese el interés a generar" id="interes">
-                        <i class="fas fa-hand-holding-usd"></i>
-                    </label>
-                </div>
-            </form>
-            <button onclick="simularPrestamo();">SIMULAR PRÉSTAMO</button>
-            <button onclick="genTable();">GENERAR TABLA</button>
-            <button onclick="resetForm()" class="reset">Limpiar</button>
-        </fieldset>
-        <hr>
-        <table class="tab">
-            <thead>
-                <tr>
-                    <td>NRO</td>
-                    <td>CAPITAL</td>
-                    <td>INTERES</td>
-                    <td>IMPORTE A PAGAR</td>
-                </tr>
-            </thead>
-            <tbody id="tab">
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td class="ft">TOTAL</td>
-                    <td id="t1"></td>
-                    <td id="t2"></td>
-                    <td id="t3"></td>
-                </tr>
-            </tfoot>
-        </table>
+<header>
+<div class="container">
+    <h1>Calculadora de Préstamos</h1>
+    <form>
+        <div class="form-group">
+            <label for="nombre">Nombre y Apellido:</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre y apellido">
+        </div>
+        <div class="form-group">
+            <label for="cantidad">Cantidad a solicitar:</label>
+            <input type="number" class="form-control" id="cantidad" placeholder="Ingrese la cantidad">
+        </div>
+        <div class="form-group">
+            <label for="plazo">Cuotas (en meses):</label>
+            <select class="form-control" id="plazo">
+                <option value="12">12 meses</option>
+                <option value="18">18 meses</option>
+                <option value="24">24 meses</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="moneda">tipo de moneda:</label>
+            <select class="form-control" id="moneda">
+                <option value="pesos">Pesos Argentinos</option>
+                <option value="dolares">Dólares</option>
+                <!-- Puedes agregar más opciones según tus necesidades -->
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary" id="boton">Calcular Préstamo</button>
+        <button type="button" class="btn btn-secondary" id="limpiar">Limpiar Formulario</button>
+    </form>
+    <div id="resultado" class="mt-4"></div>
+</div>
+</header>
+
+<div class="container-fluid"> 
+    <div class="banner"></div>
+
+<footer>
+    <h2>Visita nuestras redes sociales</h2>
+    <div class="padre-redes">
+        <a href="https://www.instagram.com" target="_blank" title="instagram" rel="noopener">
+            <img src="assets/img/icono-instagram.png" alt="Icono instagram" class="icono-redes">
+        </a>
+        <a href="https.//www.facebook.com" target="_blank" title="instagram" rel="noopener">
+            <img src="assets/img/icono-facebook.png" alt="Icono facebook" class="icono-redes">
+        </a>
     </div>
-    <footer>
-        <h2>Visita nuestras redes sociales</h2>
     <p>Sitio web creado sin fines de lucro&copy;</p>
     <a href="https://api.whatsapp.com/send?phone=5491112345678" target="_blank" title="whatsapp" rel="noopener">
-        <img src="img/icono-whatsapp.png" alt="Icono whatsapp" class="whatsapp">
+        <img src="assets/img/icono-whatsapp.png" alt="Icono whatsapp" class="whatsapp">
     </a>
-   </footer>
-   <script src="./main.js"></script>
+</footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+<!-- Enlace a tu script.js -->
+<script src="./main.js"></script>
+<!-- Enlace a la biblioteca SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 </html>

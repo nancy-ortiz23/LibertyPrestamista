@@ -1,138 +1,112 @@
-function solicitarNumero(mensaje) {
-    let numero;
-    while (true) {
-        numero = Number(prompt(mensaje));
-        if (!isNaN(numero)) {
-            break;
-        }
+// Declaración de elementos del DOM
+const boton = document.getElementById("boton");
+const limpiarBoton = document.getElementById("limpiar");
+const resultadoDiv = document.getElementById("resultado");
+const nombreInput = document.getElementById("nombre");
+const cantidadInput = document.getElementById("cantidad");
+const plazoInput = document.getElementById("plazo");
+const listado = document.getElementById("listado");
+
+// Creación del arreglo de préstamos
+const prestamos = [];
+
+// Función para calcular préstamo
+const calcularPrestamo = () => {
+    // Obtener valores de los inputs
+    const nombre = nombreInput.value;
+    const cantidad = Number(cantidadInput.value);
+    const plazo = Number(plazoInput.value);
+
+    // Validaciones de los datos ingresados
+    if (!nombre.trim()) {
+        mostrarMensaje("Ingresa un nombre y apellido");
+        return;
     }
-    return numero;
-}
 
-function mostrarMensaje(mensaje) {
-    const mensajeDiv = document.createElement('div');
-    mensajeDiv.textContent = mensaje;
-    document.body.appendChild(mensajeDiv);
-}
+    if (cantidad > 1000000) {
+        mostrarMensaje("La cantidad que ingresaste es mayor a 1,000,000 de pesos argentinos. Ingresa un monto menor");
+        return;
+    }
 
-function capturarInput(id) {
-    return document.getElementById(id).value;
-}
+    if (![12, 18, 24].includes(plazo)) {
+        mostrarMensaje("Por favor, elija una de las opciones válidas (6, 12 o 24).");
+        return;
+    }
 
-function calcularCuota(monto, cuotas, tasaInteres) {
-    let interes = monto * tasaInteres;
-    return (monto + interes) / cuotas;
-}
+    // Calcular 
+    let cuotas;
+    switch (plazo) {
+        case 6:
+            cuotas = cantidad / 12;
+            break;
+        case 12:
+            cuotas = cantidad / 18;
+            break;
+        case 24:
+            cuotas = cantidad / 24;
+            break;
+        default:
+            cuotas = 0;
+    }
 
-const prestamosArray = [];
-
-function agregarPrestamo(monto, cuotas, tasaInteres) {
-    const prestamo = {
-        monto: monto,
-        cuotas: cuotas,
-        tasaInteres: tasaInteres,
-        montoTotal: null
+    // Crear objeto Prestamo
+    const Prestamo = {
+        nombre: nombre,
+        capital: cantidad,
+        plazo: plazo,
+        cuotas: cuotas.toFixed(2) // Limitar a 2 decimales
     };
 
-    prestamo.montoTotal = calcularCuota(monto, cuotas, tasaInteres) * cuotas;
+    // Guardar préstamo en el arreglo
+    prestamos.push(Prestamo);
 
-    prestamosArray.push(prestamo);
+    // Guardar en localStorage
+    guardarPrestamosEnLocalStorage();
 
-    return prestamo;
-}
+    // Mostrar resultado y mensaje de éxito en pesos argentinos
+    resultadoDiv.innerHTML = `${nombre}, tu cuota fija para pagar tu préstamo de ${cantidad} a ${plazo} meses es de: ${cuotas} pesos argentinos`;
 
-function simularPrestamo() {
-    let nombre = capturarInput("nombre");
-    mostrarMensaje("Bienvenido/a a Liberty Prestamista: " + nombre);
+    mostrarMensajeExitoso("¡Felicidades, tienes tu préstamo en pesos argentinos!");
+};
 
-    const monto = solicitarNumero("Ingrese el monto a financiar:");
-    
+// Función para limpiar el formulario
+const limpiarFormulario = () => {
+    nombreInput.value = "";
+    cantidadInput.value = "";
+    plazoInput.value = "";
+    resultadoDiv.innerHTML = "";
+};
 
-    if (monto <= 1000) {
-        mostrarMensaje("No se puede financiar en cuotas para montos menores o iguales a $1000");
-    } else {
-        const tasaInteres = 0.1; // Tasa de interés del 10% (ajusta según tus necesidades)
-        const cuotasDisponibles = [3, 6, 12];
+// Event listeners
+boton.addEventListener("click", calcularPrestamo);
+limpiarBoton.addEventListener("click", limpiarFormulario);
 
-        mostrarMensaje("Opciones de cuotas:\n\n" +
-            cuotasDisponibles.map(cuota => `${cuota} cuotas de $${calcularCuota(monto, cuota, tasaInteres).toFixed(2)}`).join("\n"));
+// Función para mostrar mensajes en la página
+const mostrarMensaje = (mensaje) => {
+    resultadoDiv.innerHTML = `<p class="error">${mensaje}</p>`;
+};
 
-        const cuotas = solicitarNumero("Ingrese la cantidad de cuotas deseadas (3, 6, o 12):");
+// Función para mostrar mensajes de éxito usando SweetAlert2
+const mostrarMensajeExitoso = (mensaje) => {
+    console.log(Swal); // Agrega esta línea para verificar si SweetAlert2 está disponible
+    Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 2000
+    });
+};
 
-        if (!cuotasDisponibles.includes(cuotas)) {
-            mostrarMensaje("Cantidad de cuotas no válida. Por favor, ingrese 3, 6 o 12.");
-        } else {
-            const nuevoPrestamo = agregarPrestamo(monto, cuotas, tasaInteres);
+// Función para guardar préstamos en localStorage
+const guardarPrestamosEnLocalStorage = () => {
+    localStorage.setItem("prestamos", JSON.stringify(prestamos));
+};
 
-            mostrarMensaje(`El monto total a pagar (incluyendo intereses) es: $${nuevoPrestamo.montoTotal.toFixed(2)}`);
-
-            let deseaPrestamo = confirm("¿Quieres solicitar el préstamo simulado?");
-
-            if (deseaPrestamo) {
-                mostrarMensaje("Gracias por contratar Liberty Prestamista. Le contactaremos para más detalles.");
-            } else {
-                mostrarMensaje("Gracias por utilizar Liberty Prestamista. ¡Hasta luego!");
-            }
-        }
+// Función para cargar préstamos desde localStorage
+const cargarPrestamosDesdeLocalStorage = () => {
+    const prestamosGuardados = localStorage.getItem("prestamos");
+    if (prestamosGuardados) {
+        prestamos.push(...JSON.parse(prestamosGuardados));
     }
-}
-
-function genTable() {
-    const tabElement = document.getElementById("tab");
-    tabElement.innerHTML = "";
-
-    let capitalInput = document.getElementById("capital");
-    let cuotasInput = document.getElementById("couta");
-    let interesInput = document.getElementById("interes");
-
-    let capital = parseFloat(capitalInput.value);
-    let cuotas = parseFloat(cuotasInput.value);
-    let interes = parseFloat(interesInput.value);
-
-    if (!isNaN(capital) && !isNaN(cuotas) && !isNaN(interes) && capital > 0 && cuotas > 0 && interes > 0) {
-        let tablaHtml = "";
-
-        for (let i = 1; i <= cuotas; i++) {
-            let cuotaCapital = (capital / cuotas).toFixed(2);
-            let interesCuota = (((capital * interes) / 100) / cuotas).toFixed(2);
-            let totalCuota = (parseFloat(cuotaCapital) + parseFloat(interesCuota)).toFixed(2);
-
-            tablaHtml += `<tr>
-                            <td>${i}</td>
-                            <td>${cuotaCapital}</td>
-                            <td>${interesCuota}</td>
-                            <td>${totalCuota}</td>
-                          </tr>`;
-        }
-
-        let capitalTotal = (capital).toFixed(2);
-        let interesTotal = (((capital * interes) / 100)).toFixed(2);
-        let totalPagar = (parseFloat(capitalTotal) + parseFloat(interesTotal)).toFixed(2);
-
-        document.getElementById("t1").textContent = capitalTotal;
-        document.getElementById("t2").textContent = interesTotal;
-        document.getElementById("t3").textContent = totalPagar;
-
-        tabElement.innerHTML = tablaHtml;
-    } else {
-        mostrarMensaje("Por favor, ingrese valores numéricos válidos y mayores a cero en todos los campos.");
-    }
-}
-
-function mostrarMensaje(mensaje) {
-    // Mostrar mensaje de error utilizando el DOM
-    const mensajeDiv = document.createElement('div');
-    mensajeDiv.textContent = mensaje;
-    document.body.appendChild(mensajeDiv);
-}
-
-function resetForm() {
-    // Restablecer los valores de los campos a su estado predeterminado
-    document.getElementById("capital").value = "";
-    document.getElementById("couta").value = "";
-    document.getElementById("interes").value = "";
-    document.getElementById("tab").innerHTML = "";
-    document.getElementById("t1").textContent = "";
-    document.getElementById("t2").textContent = "";
-    document.getElementById("t3").textContent = "";
-}
+};
