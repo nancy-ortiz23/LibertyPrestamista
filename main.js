@@ -3,8 +3,9 @@ const boton = document.getElementById("boton");
 const limpiarBoton = document.getElementById("limpiar");
 const resultadoDiv = document.getElementById("resultado");
 const nombreInput = document.getElementById("nombre");
-const cantidadInput = document.getElementById("cantidad");
-const plazoInput = document.getElementById("plazo");
+const cantidadInput = document.getElementById("cantidad"); // Cambiado de capital a cantidadInput
+const cuotasInput = document.getElementById("cuotas");
+const monedaInput = document.getElementById("moneda");
 const listado = document.getElementById("listado");
 
 // Creación del arreglo de préstamos
@@ -13,48 +14,54 @@ const prestamos = [];
 // Función para calcular préstamo
 const calcularPrestamo = () => {
     // Obtener valores de los inputs
-    const nombre = nombreInput.value;
-    const cantidad = Number(cantidadInput.value);
-    const plazo = Number(plazoInput.value);
+    const nombreApellido = nombreInput.value;
+    const cantidad = Number(cantidadInput.value); // Cambiado de capital a cantidad
+    const cuotas = Number(cuotasInput.value);
+    const moneda = monedaInput.value;
 
     // Validaciones de los datos ingresados
-    if (!nombre.trim()) {
+    if (!nombreApellido.trim()) {
         mostrarMensaje("Ingresa un nombre y apellido");
         return;
     }
 
-    if (cantidad > 1000000) {
-        mostrarMensaje("La cantidad que ingresaste es mayor a 1,000,000 de pesos argentinos. Ingresa un monto menor");
+    if (cantidad <= 0) { // Cambiado de capital a cantidad
+        mostrarMensaje("La cantidad a solicitar debe ser mayor que cero");
         return;
     }
 
-    if (![12, 18, 24].includes(plazo)) {
-        mostrarMensaje("Por favor, elija una de las opciones válidas (6, 12 o 24).");
+    if (![12, 18, 24].includes(cuotas)) {
+        mostrarMensaje("Por favor, elija una de las opciones válidas (12, 18 o 24 cuotas).");
         return;
     }
 
-    // Calcular 
-    let cuotas;
-    switch (plazo) {
-        case 6:
-            cuotas = cantidad / 12;
-            break;
+    // Calcular intereses (puedes ajustar la tasa de interés según tus necesidades)
+    const tasaInteres = 0.1; // Ejemplo de tasa de interés del 10%
+    const intereses = cantidad * tasaInteres; // Cambiado de capital a cantidad
+
+    // Calcular cuotas
+    let cuota;
+    switch (cuotas) {
         case 12:
-            cuotas = cantidad / 18;
+            cuota = (cantidad + intereses) / 12; // Cambiado de capital a cantidad
+            break;
+        case 18:
+            cuota = (cantidad + intereses) / 18; // Cambiado de capital a cantidad
             break;
         case 24:
-            cuotas = cantidad / 24;
+            cuota = (cantidad + intereses) / 24; // Cambiado de capital a cantidad
             break;
         default:
-            cuotas = 0;
+            cuota = 0;
     }
 
-    // Crear objeto Prestamo
+    // Crear objeto Prestamo con nombre, cantidad, cuota, intereses y moneda
     const Prestamo = {
-        nombre: nombre,
-        capital: cantidad,
-        plazo: plazo,
-        cuotas: cuotas.toFixed(2) // Limitar a 2 decimales
+        nombreApellido: nombreApellido,
+        cantidad: cantidad,
+        cuota: cuota.toFixed(2),
+        intereses: intereses.toFixed(2),
+        moneda: moneda
     };
 
     // Guardar préstamo en el arreglo
@@ -63,23 +70,24 @@ const calcularPrestamo = () => {
     // Guardar en localStorage
     guardarPrestamosEnLocalStorage();
 
-    // Mostrar resultado y mensaje de éxito en pesos argentinos
-    resultadoDiv.innerHTML = `${nombre}, tu cuota fija para pagar tu préstamo de ${cantidad} a ${plazo} meses es de: ${cuotas} pesos argentinos`;
+    // Mostrar resultado y mensaje de éxito
+    resultadoDiv.innerHTML = `${nombreApellido}, tu cuota fija para pagar tu préstamo de ${cantidad} a ${cuotas} meses es de: ${cuota} ${moneda}`;
 
-    mostrarMensajeExitoso("¡Felicidades, tienes tu préstamo en pesos argentinos!");
+    mostrarMensajeExitoso("¡Felicidades, tienes tu préstamo!");
+
+    // Actualizar el listado
+    mostrarListado();
 };
+
 
 // Función para limpiar el formulario
 const limpiarFormulario = () => {
     nombreInput.value = "";
-    cantidadInput.value = "";
-    plazoInput.value = "";
+    capitalInput.value = "";
+    cuotasInput.value = "";
+    monedaInput.value = "pesos"; // Restablecer la opción predeterminada
     resultadoDiv.innerHTML = "";
 };
-
-// Event listeners
-boton.addEventListener("click", calcularPrestamo);
-limpiarBoton.addEventListener("click", limpiarFormulario);
 
 // Función para mostrar mensajes en la página
 const mostrarMensaje = (mensaje) => {
@@ -88,7 +96,6 @@ const mostrarMensaje = (mensaje) => {
 
 // Función para mostrar mensajes de éxito usando SweetAlert2
 const mostrarMensajeExitoso = (mensaje) => {
-    console.log(Swal); // Agrega esta línea para verificar si SweetAlert2 está disponible
     Swal.fire({
         position: "top-center",
         icon: "success",
@@ -103,10 +110,45 @@ const guardarPrestamosEnLocalStorage = () => {
     localStorage.setItem("prestamos", JSON.stringify(prestamos));
 };
 
-// Función para cargar préstamos desde localStorage
-const cargarPrestamosDesdeLocalStorage = () => {
-    const prestamosGuardados = localStorage.getItem("prestamos");
-    if (prestamosGuardados) {
-        prestamos.push(...JSON.parse(prestamosGuardados));
-    }
+// Función para cargar préstamos desde un archivo JSON usando fetch
+const cargarPrestamosDesdeJSON = () => {
+    fetch("./data.json")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error al cargar los datos desde el servidor");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            prestamos.push(...data);
+            mostrarListado();
+        })
+        .catch((error) => {
+            console.error("Error al cargar los datos:", error);
+        });
 };
+
+// Función para mostrar el listado de préstamos
+const mostrarListado = () => {
+    listado.innerHTML = ""; // Limpiar el listado antes de mostrar los nuevos datos
+
+    prestamos.forEach((prestamo) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <h4>${prestamo.nombreApellido}</h4>
+            <p>Capital: ${prestamo.capital}</p>
+            <p>Cuota: ${prestamo.cuota}</p>
+            <p>Intereses: ${prestamo.intereses}</p>
+            <p>Moneda: ${prestamo.moneda}</p>
+            <hr/>
+        `;
+        listado.append(li);
+    });
+};
+
+// Event listeners
+boton.addEventListener("click", calcularPrestamo);
+limpiarBoton.addEventListener("click", limpiarFormulario);
+
+// Llama a la función para cargar préstamos desde JSON
+cargarPrestamosDesdeJSON();

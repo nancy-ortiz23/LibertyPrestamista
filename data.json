@@ -1,0 +1,30 @@
+[
+    {
+      "nombreApellido": "Juan Pérez",
+      "capital": 5000,
+      "cuota": 450,
+      "intereses": 500,
+      "moneda": "pesos"
+    },
+    {
+      "nombreApellido": "María Rodríguez",
+      "capital": 10000,
+      "cuota": 900,
+      "intereses": 1000,
+      "moneda": "dolares"
+    },
+    {
+      "nombreApellido": "Carlos Gómez",
+      "capital": 7500,
+      "cuota": 675,
+      "intereses": 750,
+      "moneda": "pesos"
+    },
+    {
+      "nombreApellido": "Luisa Martínez",
+      "capital": 12000,
+      "cuota": 1080,
+      "intereses": 1200,
+      "moneda": "dolares"
+    }
+  ]
