@@ -3,7 +3,7 @@ const boton = document.getElementById("boton");
 const limpiarBoton = document.getElementById("limpiar");
 const resultadoDiv = document.getElementById("resultado");
 const nombreInput = document.getElementById("nombre");
-const cantidadInput = document.getElementById("cantidad"); // Cambiado de capital a cantidadInput
+const cantidadInput = document.getElementById("cantidad");
 const cuotasInput = document.getElementById("cuotas");
 const monedaInput = document.getElementById("moneda");
 const listado = document.getElementById("listado");
@@ -15,7 +15,7 @@ const prestamos = [];
 const calcularPrestamo = () => {
     // Obtener valores de los inputs
     const nombreApellido = nombreInput.value;
-    const cantidad = Number(cantidadInput.value); // Cambiado de capital a cantidad
+    const cantidad = Number(cantidadInput.value);
     const cuotas = Number(cuotasInput.value);
     const moneda = monedaInput.value;
 
@@ -25,7 +25,7 @@ const calcularPrestamo = () => {
         return;
     }
 
-    if (cantidad <= 0) { // Cambiado de capital a cantidad
+    if (cantidad <= 0) {
         mostrarMensaje("La cantidad a solicitar debe ser mayor que cero");
         return;
     }
@@ -35,27 +35,27 @@ const calcularPrestamo = () => {
         return;
     }
 
-    // Calcular intereses (puedes ajustar la tasa de interés según tus necesidades)
+    // Calcular intereses
     const tasaInteres = 0.1; // Ejemplo de tasa de interés del 10%
-    const intereses = cantidad * tasaInteres; // Cambiado de capital a cantidad
+    const intereses = cantidad * tasaInteres;
 
     // Calcular cuotas
     let cuota;
     switch (cuotas) {
         case 12:
-            cuota = (cantidad + intereses) / 12; // Cambiado de capital a cantidad
+            cuota = (cantidad + intereses) / 12;
             break;
         case 18:
-            cuota = (cantidad + intereses) / 18; // Cambiado de capital a cantidad
+            cuota = (cantidad + intereses) / 18;
             break;
         case 24:
-            cuota = (cantidad + intereses) / 24; // Cambiado de capital a cantidad
+            cuota = (cantidad + intereses) / 24;
             break;
         default:
             cuota = 0;
     }
 
-    // Crear objeto Prestamo con nombre, cantidad, cuota, intereses y moneda
+    // Crear objeto Prestamo
     const Prestamo = {
         nombreApellido: nombreApellido,
         cantidad: cantidad,
@@ -79,13 +79,12 @@ const calcularPrestamo = () => {
     mostrarListado();
 };
 
-
 // Función para limpiar el formulario
 const limpiarFormulario = () => {
     nombreInput.value = "";
-    capitalInput.value = "";
+    cantidadInput.value = "";
     cuotasInput.value = "";
-    monedaInput.value = "pesos"; // Restablecer la opción predeterminada
+    monedaInput.value = "pesos"; 
     resultadoDiv.innerHTML = "";
 };
 
@@ -110,33 +109,24 @@ const guardarPrestamosEnLocalStorage = () => {
     localStorage.setItem("prestamos", JSON.stringify(prestamos));
 };
 
-// Función para cargar préstamos desde un archivo JSON usando fetch
-const cargarPrestamosDesdeJSON = () => {
-    fetch("./data.json")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Error al cargar los datos desde el servidor");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            prestamos.push(...data);
-            mostrarListado();
-        })
-        .catch((error) => {
-            console.error("Error al cargar los datos:", error);
-        });
+// Función para cargar préstamos desde el localStorage
+const cargarPrestamosDesdeLocalStorage = () => {
+    const prestamosGuardados = JSON.parse(localStorage.getItem("prestamos"));
+    if (prestamosGuardados) {
+        prestamos.push(...prestamosGuardados);
+        mostrarListado(); 
+    }
 };
 
 // Función para mostrar el listado de préstamos
 const mostrarListado = () => {
-    listado.innerHTML = ""; // Limpiar el listado antes de mostrar los nuevos datos
+    listado.innerHTML = ""; 
 
     prestamos.forEach((prestamo) => {
         const li = document.createElement("li");
         li.innerHTML = `
             <h4>${prestamo.nombreApellido}</h4>
-            <p>Capital: ${prestamo.capital}</p>
+            <p>Cantidad: ${prestamo.cantidad}</p>
             <p>Cuota: ${prestamo.cuota}</p>
             <p>Intereses: ${prestamo.intereses}</p>
             <p>Moneda: ${prestamo.moneda}</p>
@@ -150,5 +140,5 @@ const mostrarListado = () => {
 boton.addEventListener("click", calcularPrestamo);
 limpiarBoton.addEventListener("click", limpiarFormulario);
 
-// Llama a la función para cargar préstamos desde JSON
-cargarPrestamosDesdeJSON();
+// Llama a la función para cargar préstamos desde el localStorage al cargar la página
+cargarPrestamosDesdeLocalStorage();
