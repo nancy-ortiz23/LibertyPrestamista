@@ -109,13 +109,26 @@ const guardarPrestamosEnLocalStorage = () => {
     localStorage.setItem("prestamos", JSON.stringify(prestamos));
 };
 
-// Función para cargar préstamos desde el localStorage
-const cargarPrestamosDesdeLocalStorage = () => {
-    const prestamosGuardados = JSON.parse(localStorage.getItem("prestamos"));
-    if (prestamosGuardados) {
-        prestamos.push(...prestamosGuardados);
-        mostrarListado(); 
-    }
+// Función para cargar préstamos desde un archivo JSON usando fetch
+const cargarPrestamosDesdeJSON = () => {
+    fetch("./data.json")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error al cargar los datos desde el servidor");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            // Limpiar el arreglo de préstamos antes de agregar los nuevos préstamos
+            prestamos.length = 0;
+            // Agregar los préstamos del JSON al arreglo de préstamos
+            prestamos.push(...data);
+            // Mostrar el listado actualizado en el DOM
+            mostrarListado();
+        })
+        .catch((error) => {
+            console.error("Error al cargar los datos:", error);
+        });
 };
 
 // Función para mostrar el listado de préstamos
@@ -140,5 +153,5 @@ const mostrarListado = () => {
 boton.addEventListener("click", calcularPrestamo);
 limpiarBoton.addEventListener("click", limpiarFormulario);
 
-// Llama a la función para cargar préstamos desde el localStorage al cargar la página
-cargarPrestamosDesdeLocalStorage();
+// Llama a la función para cargar préstamos desde JSON al cargar la página
+cargarPrestamosDesdeJSON();
