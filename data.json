@@ -1,4 +1,7 @@
-[
+{
+  "mensaje": "Estos son los datos obtenidos desde data.json",
+  "otroDato": "Valor adicional",
+  "prestamos": [
     {
       "nombreApellido": "Juan Pérez",
       "capital": 5000,
@@ -27,4 +30,6 @@
       "intereses": 1200,
       "moneda": "dolares"
     }
-  ]
+  ],
+  "booleano": true
+}
