@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Calculadora de Préstamos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/prestamista.css">
@@ -10,42 +11,37 @@
 
 <body>
     <header>
-        <div class="container">
-            <h1>Calculadora de Préstamos</h1>
-            <form id="contactForm">
-                <div class="form-group">
-                    <label for="nombreApellido">Nombre y Apellido:</label>
-                    <input type="text" class="form-control" id="nombreApellido" placeholder="Ingrese su nombre y apellido" required>
-                </div>
-                <div class="form-group">
-                    <label for="cantidad">Cantidad a solicitar:</label> 
-                    <input type="number" class="form-control" id="cantidad" placeholder="Ingrese la cantidad" required>
-                </div>
-                <div class="form-group">
-                    <label for="cuotas">Cuotas (en meses):</label> 
-                    <select class="form-control" id="cuotas" required>
-                        <option value="12">12 meses</option>
-                        <option value="18">18 meses</option>
-                        <option value="24">24 meses</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="interes">Tasa de Interés (%):</label> 
-                    <input type="number" class="form-control" id="interes" placeholder="Ingrese la tasa de interés" required>
-                </div>
-                <div class="form-group">
-                    <label for="moneda">Tipo de moneda:</label>
-                    <select class="form-control" id="moneda" required>
-                        <option value="pesos">Pesos Argentinos</option>
-                        <option value="dolares">Dólares</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary" id="boton">Calcular Préstamo</button>
+    <div class="container">
+        <h1>Calculadora de Préstamos</h1>
+        <form>
+            <div class="form-group">
+                <label for="nombre">Nombre y Apellido:</label>
+                <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre y apellido">
+            </div>
+            <div class="form-group">
+                <label for="cantidad">Cantidad a solicitar:</label> 
+                <input type="number" class="form-control" id="cantidad" placeholder="Ingrese la cantidad">
+            </div>
+            <div class="form-group">
+                <label for="cuotas">Cuotas (en meses):</label> 
+                <select class="form-control" id="cuotas">
+                    <option value="12">12 meses</option>
+                    <option value="18">18 meses</option>
+                    <option value="24">24 meses</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="moneda">Tipo de moneda:</label>
+                <select class="form-control" id="moneda">
+                    <option value="pesos">Pesos Argentinos</option>
+                    <option value="dolares">Dólares</option>
+                   
+                </select>
+            </div>
+                <button type="button" class="btn btn-primary" id="boton">Calcular Préstamo</button>
                 <button type="button" class="btn btn-secondary" id="limpiar">Limpiar Formulario</button>
             </form>
             <div id="resultado" class="mt-4"></div>
-            <!-- Nuevo div para mostrar los datos cargados desde data.json -->
-            <div id="datosJson"></div>
         </div>
     </header>
 
@@ -59,7 +55,7 @@
             <a href="https://www.instagram.com" target="_blank" title="instagram" rel="noopener">
                 <img src="assets/img/icono-instagram.png" alt="Icono instagram" class="icono-redes">
             </a>
-            <a href="https://www.facebook.com" target="_blank" title="facebook" rel="noopener">
+            <a href="https.//www.facebook.com" target="_blank" title="instagram" rel="noopener">
                 <img src="assets/img/icono-facebook.png" alt="Icono facebook" class="icono-redes">
             </a>
         </div>
@@ -72,8 +68,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    <!-- Enlace a tu script.js -->
+    <script src="./main.js"></script>
     <!-- Enlace a la biblioteca SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="./main.js"></script>
 </body>
 </html>
