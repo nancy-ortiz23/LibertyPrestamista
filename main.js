@@ -34,6 +34,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
+    // Función para mostrar el contenido del archivo JSON
+    const mostrarJSON = () => {
+        fetch("./data.json")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Error al cargar los datos desde el servidor");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Mostrar el contenido JSON en el resultadoDiv
+                resultadoDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            })
+            .catch((error) => {
+                console.error("Error al cargar los datos:", error);
+                // Mostrar un mensaje de error en caso de fallo
+                resultadoDiv.innerHTML = `<p class="error">Error al cargar los datos desde el servidor</p>`;
+            });
+    };
+
     // Función para calcular préstamo
     const calcularPrestamo = () => {
         // Obtener valores de los inputs
@@ -109,6 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
         cuotasInput.value = "";
         monedaInput.value = "pesos";
         resultadoDiv.innerHTML = "";
+
+        // Limpiar el listado
+        listado.innerHTML = "";
     };
 
     // Función para mostrar mensajes en la página
@@ -133,40 +156,19 @@ document.addEventListener("DOMContentLoaded", () => {
         return prestamosGuardados ? JSON.parse(prestamosGuardados) : [];
     };
 
-    // Función para cargar préstamos desde un archivo JSON usando fetch
-    const cargarPrestamosDesdeJSON = () => {
-        fetch("./data.json")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Error al cargar los datos desde el servidor");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                // Actualizamos los préstamos con los datos cargados desde el servidor
-                prestamos = data.prestamos;
-                // Guardamos los préstamos en el localStorage
-                guardarPrestamosEnLocalStorage();
-                // Mostramos el listado de préstamos
-                mostrarListado();
-            })
-            .catch((error) => {
-                console.error("Error al cargar los datos:", error);
-            });
-    };
-
     // Función para guardar préstamos en localStorage
     const guardarPrestamosEnLocalStorage = () => {
         localStorage.setItem("prestamos", JSON.stringify(prestamos));
     };
 
-    // Inicializamos los préstamos con los datos guardados en el localStorage o un arreglo vacío
-    prestamos = obtenerPrestamosDelLocalStorage();
-
-    // Cargamos los préstamos desde el archivo JSON
-    cargarPrestamosDesdeJSON();
-
     // Asignar manejadores de eventos a los botones
-    boton.addEventListener("click", calcularPrestamo);
+    boton.addEventListener("click", () => {
+        calcularPrestamo();
+        mostrarListado();
+    });
     limpiarBoton.addEventListener("click", limpiarFormulario);
+    document.getElementById("cargar-prestamos").addEventListener("click", mostrarJSON);
+
+    // Cargamos los préstamos desde el archivo JSON al cargar la página
+    // cargarPrestamosDesdeJSON();
 });

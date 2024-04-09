@@ -1,12 +1,18 @@
 {
-  "mensaje": "Estos son los datos obtenidos desde data.json",
-  "prestamos": [
-    {
-      "nombreApellido": "Préstamo de prueba",
-      "cantidad": 10000,
-      "cuota": 1200,
-      "intereses": 2000,
-      "moneda": "dólares"
-    }
+  "Prestamos realizados": [
+      {
+          "nombreApellido": "Test User 1",
+          "cantidad": 5000,
+          "cuota": 458.33,
+          "intereses": 500,
+          "moneda": "pesos"
+      },
+      {
+          "nombreApellido": "Test User 2",
+          "cantidad": 8000,
+          "cuota": 758.33,
+          "intereses": 800,
+          "moneda": "pesos"
+      }
   ]
 }
